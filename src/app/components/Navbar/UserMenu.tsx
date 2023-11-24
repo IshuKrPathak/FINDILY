@@ -4,9 +4,16 @@ import { AiOutlineMenu } from "react-icons/ai";
 import Avatar from "../Avatar";
 import MenuItem from "./MenuItem";
 import useRegisterModel from "@/app/hooks/useRegisterModel";
+import useLoginModel from "@/app/hooks/useLoginModel";
+import { User } from "@prisma/client";
+import { signOut } from "next-auth/react";
+interface UserMenuProps {
+  currentUser?: User | null;
+}
 
-const UserMenu = () => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModel();
+  const loginModel = useLoginModel();
   const [isopen, setIsopen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsopen((value) => !value);
@@ -39,10 +46,21 @@ const UserMenu = () => {
             text-sm "
         >
           <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem onClick={() => {}} label="Login" />
-              <MenuItem onClick={registerModal.onOpen} label="Signup" />
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem onClick={() => {}} label="My Booking" />
+                <MenuItem onClick={() => {}} label="My searches" />
+                <MenuItem onClick={() => {}} label="My Property" />
+                <MenuItem onClick={() => {}} label="My Home" />
+                <hr />
+                <MenuItem onClick={() => signOut()} label="Logout" />
+              </>
+            ) : (
+              <>
+                <MenuItem onClick={loginModel.onOpen} label="Login" />
+                <MenuItem onClick={registerModal.onOpen} label="Signup" />
+              </>
+            )}
           </div>
         </div>
       )}
@@ -51,5 +69,3 @@ const UserMenu = () => {
 };
 
 export default UserMenu;
-
-//33:39 - 
