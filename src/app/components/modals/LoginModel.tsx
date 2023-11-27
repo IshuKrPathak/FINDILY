@@ -84,7 +84,7 @@ const LoginModel = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => signIn('google')}
+        onClick={() => signIn("google")}
       />
 
       <Button
