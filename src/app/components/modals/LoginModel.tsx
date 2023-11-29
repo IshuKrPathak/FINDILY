@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 const LoginModel = () => {
   const router = useRouter();
+
   const RegisterModel = useRegisterModel();
   const LoginModel = useLoginModel();
 
@@ -49,6 +50,10 @@ const LoginModel = () => {
       }
     });
   };
+  const toggle = useCallback(() => {
+    LoginModel.onClose();
+    RegisterModel.onOpen();
+  }, [LoginModel, RegisterModel]);
 
   const bodyContent = (
     <div className=" flex flex-col gap-4">
@@ -95,12 +100,12 @@ const LoginModel = () => {
       />
       <div className=" text-neutral-500 text-center mt-4 font-light ">
         <div className=" justify-center flex flex-row items-center gap-2">
-          <div>Already have an account</div>
+          <div>First time using Findily ? </div>
           <div
             className=" text-gray-800 cursor-pointer hover:underline"
-            onClick={RegisterModel.onClose}
+            onClick={toggle}
           >
-            Log in
+             Create an account
           </div>
         </div>
       </div>

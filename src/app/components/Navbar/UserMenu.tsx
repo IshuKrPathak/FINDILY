@@ -7,6 +7,7 @@ import useRegisterModel from "@/app/hooks/useRegisterModel";
 import useLoginModel from "@/app/hooks/useLoginModel";
 import { signOut } from "next-auth/react";
 import { SafeUser } from "@/app/types";
+import useRentModel from "@/app/hooks/useRentModel";
 interface UserMenuProps {
   currentUser?: SafeUser | null;
 }
@@ -14,18 +15,25 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModel();
   const loginModel = useLoginModel();
+  const rentModel = useRentModel();
+
   const [isopen, setIsopen] = useState(false);
   const toggleOpen = useCallback(() => {
     setIsopen((value) => !value);
   }, []);
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModel.onOpen();
+    }
+    //open rent model
+    rentModel.onOpen();
+  }, [currentUser, loginModel, rentModel]);
   return (
     <div className="relative">
       <div className=" flex flex-row items-center gap-3">
         <div
+          onClick={onRent}
           className=" hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer "
-          onClick={() => {
-            toggleOpen;
-          }}
         >
           Add you Service
         </div>
@@ -36,7 +44,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar src={currentUser?.image}  />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
@@ -51,7 +59,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem onClick={() => {}} label="My Booking" />
                 <MenuItem onClick={() => {}} label="My searches" />
                 <MenuItem onClick={() => {}} label="My Property" />
-                <MenuItem onClick={() => {}} label="My Home" />
+                <MenuItem
+                  onClick={rentModel.onOpen}
+                  label=" Add your service"
+                />
                 <hr />
                 <MenuItem onClick={() => signOut()} label="Logout" />
               </>

@@ -13,9 +13,12 @@ import Input from "../Inputs/Input";
 import { toast } from "react-hot-toast/headless";
 import Button from "../Button";
 import { signIn } from "next-auth/react";
+import LoginModel from "./LoginModel";
+import useLoginModel from "@/app/hooks/useLoginModel";
 
 const RegisterModel = () => {
   const RegisterModel = useRegisterModel();
+  const LoginModel = useLoginModel();
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -42,6 +45,10 @@ const RegisterModel = () => {
         setIsLoading(false);
       });
   };
+  const toggle = useCallback(() => {
+    RegisterModel.onClose();
+    LoginModel.onOpen();
+  }, [RegisterModel, LoginModel]);
 
   const bodyContent = (
     <div className=" flex flex-col gap-4">
@@ -84,21 +91,21 @@ const RegisterModel = () => {
         outline
         label="Continue with Google"
         icon={FcGoogle}
-        onClick={() => signIn('google')}
+        onClick={() => signIn("google")}
       />
 
       <Button
         outline
         label="Continue with Github"
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        onClick={() => signIn("github")}
       />
       <div className=" text-neutral-500 text-center mt-4 font-light ">
         <div className=" justify-center flex flex-row items-center gap-2">
           <div>Already have an account</div>
           <div
             className=" text-gray-800 cursor-pointer hover:underline"
-            onClick={RegisterModel.onClose}
+            onClick={toggle}
           >
             Log in
           </div>
