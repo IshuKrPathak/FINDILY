@@ -8,6 +8,7 @@ import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
 import CountrySelect from "../Inputs/CountrySelect";
 import dynamic from "next/dynamic";
+import Counter from "../Inputs/Counter";
 enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
@@ -41,10 +42,13 @@ const RentModel = () => {
   });
   const category = watch("category");
   const location = watch("location");
+  const guestCount = watch("guestCount");
+  const roomCount = watch("roomCount");
+  const bathroomCount = watch("bathroomCount");
   const Map = useMemo(
     () =>
-      dynamic(() => import('../Map'), {
-        ssr: false
+      dynamic(() => import("../Map"), {
+        ssr: false,
       }),
     [location]
   );
@@ -113,6 +117,39 @@ const RentModel = () => {
           onChange={(value) => setCustomValue("location", value)}
         />
         <Map center={location?.latlng} />
+      </div>
+    );
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className=" flex flex-col gap-8">
+        <Heading
+          title="Share some information about your service"
+          subtitle="What are the facilities provided by you "
+        />
+        <Counter
+          title="Guests"
+          subtitle="How many peoples?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Rooms"
+          subtitle="How many Rooms you have ?"
+          value={roomCount}
+          onChange={(value) => setCustomValue("roomCount", value)}
+        />
+        <hr />
+
+        <Counter
+          title="Bathrooms"
+          subtitle="How many peoples"
+          value={bathroomCount}
+          onChange={(value) => setCustomValue("bathroomCount", value)}
+        />
+
       </div>
     );
   }
