@@ -2,7 +2,7 @@ import { Nunito } from "next/font/google";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import ClientOnly from "./components/ClientOnly";
 import RegisterModel from "./components/modals/RegisterModel";
 import ToasterProvider from "./providers/ToasterProvider";
@@ -35,13 +35,9 @@ export default async function RootLayout({
           <RentModel />
           <LoginModel />
           <RegisterModel />
-
-          <Navbar currentUser={currentUser} />
+          <Navbar currentUser ={currentUser}/>
         </ClientOnly>
-        <div    className="pb-20 pt-28">
-   {children}
-        </div>
-     
+        <div className="pb-20 pt-28">{children}</div>
       </body>
     </html>
   );
