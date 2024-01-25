@@ -36,6 +36,7 @@ const RegisterModel = () => {
     axios
       .post("/api/register", data)
       .then(() => {
+        toast.success("Success")
         RegisterModel.onClose();
         LoginModel.onOpen();
       })
